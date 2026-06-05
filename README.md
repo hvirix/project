@@ -5,7 +5,7 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=hvirix_project&metric=coverage)](https://sonarcloud.io/summary/new_code?id=hvirix_project)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=hvirix_project&metric=bugs)](https://sonarcloud.io/summary/new_code?id=hvirix_project)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=hvirix_project&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=hvirix_project)
-![Tests](https://img.shields.io/badge/tests-351-brightgreen)
+![Tests](https://img.shields.io/badge/tests-253-brightgreen)
 ![Node.js](https://img.shields.io/badge/node-v18%2B-blue)
 
 ---
