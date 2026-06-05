@@ -1,0 +1,83 @@
+/**
+ * Utility functions for generating test data for the Electronic Journal.
+ * Used in tests to produce a large volume of parameterized inputs.
+ */
+
+const firstNames = ['Ivan', 'Maria', 'Olena', 'Petro', 'Anna', 'Dmytro', 'Oksana', 'Mykola', 'Iryna', 'Serhiy'];
+const lastNames = ['Kovalenko', 'Shevchenko', 'Bondarenko', 'Savchenko', 'Kravchenko', 'Lysenko', 'Moroz', 'Bondar', 'Tkach', 'Sydorenko'];
+const subjects = ['Math', 'Physics', 'History', 'Programming', 'English', 'Biology', 'Chemistry', 'Geography'];
+const groups = ['Group A', 'Group B', 'Group C', 'Group D'];
+
+/**
+ * Generates an array of student-like objects for testing.
+ * @param {number} count - Number of students to generate
+ * @returns {{ id: string, name: string, group: string }[]}
+ */
+function generateStudents(count) {
+  return Array.from({ length: count }, (_, i) => ({
+    id: `student_${i}`,
+    name: `${firstNames[i % firstNames.length]} ${lastNames[i % lastNames.length]}`,
+    group: groups[i % groups.length]
+  }));
+}
+
+/**
+ * Generates an array of teacher-like objects for testing.
+ * @param {number} count - Number of teachers to generate
+ * @returns {{ id: string, name: string, subject: string }[]}
+ */
+function generateTeachers(count) {
+  return Array.from({ length: count }, (_, i) => ({
+    id: `teacher_${i}`,
+    name: `${firstNames[(i + 3) % firstNames.length]} ${lastNames[(i + 5) % lastNames.length]}`,
+    subject: subjects[i % subjects.length]
+  }));
+}
+
+/**
+ * Generates random grade value between min and max (inclusive).
+ * @param {number} min
+ * @param {number} max
+ * @returns {number}
+ */
+function randomGrade(min = 1, max = 12) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+/**
+ * Generates a list of grade-like objects for testing.
+ * @param {number} count
+ * @returns {{ id: string, studentId: string, teacherId: string, subject: string, value: number }[]}
+ */
+function generateGrades(count) {
+  return Array.from({ length: count }, (_, i) => ({
+    id: `grade_${i}`,
+    studentId: `student_${i % 10}`,
+    teacherId: `teacher_${i % 5}`,
+    subject: subjects[i % subjects.length],
+    value: randomGrade()
+  }));
+}
+
+/**
+ * Generates attendance records for testing.
+ * @param {number} count
+ * @returns {{ id: string, studentId: string, isPresent: boolean, reason: string|null }[]}
+ */
+function generateAttendanceRecords(count) {
+  return Array.from({ length: count }, (_, i) => ({
+    id: `att_${i}`,
+    studentId: `student_${i % 10}`,
+    isPresent: i % 3 !== 0,
+    reason: i % 3 === 0 ? 'Sick' : null
+  }));
+}
+
+module.exports = {
+  generateStudents,
+  generateTeachers,
+  generateGrades,
+  generateAttendanceRecords,
+  subjects,
+  groups
+};
