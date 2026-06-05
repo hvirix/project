@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage --logHeapUsage",
+    "test": "cross-env NODE_OPTIONS=--max-old-space-size=4096 jest --coverage --logHeapUsage",
     "test:ci": "cross-env NODE_OPTIONS=--max-old-space-size=4096 jest --coverage"
   },
   "keywords": [],
@@ -11,6 +11,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "cross-env": "^10.1.0",
     "jest": "^30.4.2",
     "jest-junit": "^17.0.0"
   }
