@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage --logHeapUsage",
+    "test:ci": "cross-env NODE_OPTIONS=--max-old-space-size=4096 jest --coverage"
   },
   "keywords": [],
   "author": "",

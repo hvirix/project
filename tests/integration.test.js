@@ -1,11 +1,56 @@
 const HomeworkService = require('../src/services/HomeworkService');
 const InMemoryRepository = require('../src/storage/InMemoryRepository');
 const NotificationObserver = require('../src/services/NotificationObserver');
-const { generateStudents, generateGrades, generateAttendanceRecords } = require('../src/utils/generateData');
+const { generateStudents, generateTeachers, generateGrades, generateAttendanceRecords, gradeFromIndex } = require('../src/utils/generateData');
 
 const GradingService = require('../src/services/GradingService');
 const AttendanceService = require('../src/services/AttendanceService');
 const { StandardGradingStrategy } = require('../src/services/gradingStrategies');
+
+describe('generateData utilities', () => {
+  it('generateStudents should return correct count with id/name/group fields', () => {
+    const students = generateStudents(5);
+    expect(students.length).toBe(5);
+    expect(students[0]).toHaveProperty('id');
+    expect(students[0]).toHaveProperty('name');
+    expect(students[0]).toHaveProperty('group');
+  });
+
+  it('generateTeachers should return correct count with id/name/subject fields', () => {
+    const teachers = generateTeachers(4);
+    expect(teachers.length).toBe(4);
+    expect(teachers[0]).toHaveProperty('id');
+    expect(teachers[0]).toHaveProperty('subject');
+  });
+
+  it('generateGrades should return grades with values 1-12', () => {
+    const grades = generateGrades(12);
+    expect(grades.length).toBe(12);
+    grades.forEach(g => {
+      expect(g.value).toBeGreaterThanOrEqual(1);
+      expect(g.value).toBeLessThanOrEqual(12);
+    });
+  });
+
+  it('generateAttendanceRecords should return records with isPresent and reason', () => {
+    const records = generateAttendanceRecords(6);
+    expect(records.length).toBe(6);
+    expect(records[0].isPresent).toBe(false);
+    expect(records[0].reason).toBe('Sick');
+    expect(records[1].isPresent).toBe(true);
+    expect(records[1].reason).toBeNull();
+  });
+
+  const gradeIndexCases = [
+    [0,  1], [1,  2], [2,  3], [3,  4], [4,  5], [5,  6],
+    [6,  7], [7,  8], [8,  9], [9, 10], [10, 11], [11, 12],
+    [12, 1], [24, 1], [23, 12]
+  ];
+
+  it.each(gradeIndexCases)('gradeFromIndex(%s) should return %s', (index, expected) => {
+    expect(gradeFromIndex(index)).toBe(expected);
+  });
+});
 
 describe('HomeworkService', () => {
   let repo, observer, homeworkService;
@@ -171,17 +216,19 @@ describe('Integration Tests: Full workflow via generated data', () => {
 describe('Boundary: grade value range tests per student and subject', () => {
   const gradeValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
   const students = ['bnd_s1', 'bnd_s2', 'bnd_s3', 'bnd_s4', 'bnd_s5'];
+  
+  const studentGradeCombinations = students.flatMap(studentId => 
+    gradeValues.map(val => [studentId, val])
+  );
 
-  students.forEach(studentId => {
-    it.each(gradeValues)(`GradingService: student ${studentId} should store grade value %s`, (val) => {
-      const repo = new InMemoryRepository();
-      const observer = new NotificationObserver();
-      const service = new GradingService(repo, null, observer);
-      service.addGrade(`g_${studentId}_${val}`, studentId, 't1', 'Math', val);
-      const stored = service.getStudentGrades(studentId);
-      expect(stored.length).toBe(1);
-      expect(stored[0].value).toBe(val);
-    });
+  it.each(studentGradeCombinations)(`GradingService: student %s should store grade value %s`, (studentId, val) => {
+    const repo = new InMemoryRepository();
+    const observer = new NotificationObserver();
+    const service = new GradingService(repo, null, observer);
+    service.addGrade(`g_${studentId}_${val}`, studentId, 't1', 'Math', val);
+    const stored = service.getStudentGrades(studentId);
+    expect(stored.length).toBe(1);
+    expect(stored[0].value).toBe(val);
   });
 });
 

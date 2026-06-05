@@ -1,12 +1,22 @@
 /**
- * Utility functions for generating test data for the Electronic Journal.
+ * Utility functions for generating deterministic test data for the Electronic Journal.
  * Used in tests to produce a large volume of parameterized inputs.
+ * All values are derived deterministically from the index to ensure reproducibility.
  */
 
 const firstNames = ['Ivan', 'Maria', 'Olena', 'Petro', 'Anna', 'Dmytro', 'Oksana', 'Mykola', 'Iryna', 'Serhiy'];
 const lastNames = ['Kovalenko', 'Shevchenko', 'Bondarenko', 'Savchenko', 'Kravchenko', 'Lysenko', 'Moroz', 'Bondar', 'Tkach', 'Sydorenko'];
 const subjects = ['Math', 'Physics', 'History', 'Programming', 'English', 'Biology', 'Chemistry', 'Geography'];
 const groups = ['Group A', 'Group B', 'Group C', 'Group D'];
+
+/**
+ * Returns a deterministic grade value (1-12) based on an index.
+ * @param {number} index
+ * @returns {number}
+ */
+function gradeFromIndex(index) {
+  return (index % 12) + 1;
+}
 
 /**
  * Generates an array of student-like objects for testing.
@@ -35,17 +45,8 @@ function generateTeachers(count) {
 }
 
 /**
- * Generates random grade value between min and max (inclusive).
- * @param {number} min
- * @param {number} max
- * @returns {number}
- */
-function randomGrade(min = 1, max = 12) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-/**
  * Generates a list of grade-like objects for testing.
+ * Grade values cycle deterministically through 1-12 based on the index.
  * @param {number} count
  * @returns {{ id: string, studentId: string, teacherId: string, subject: string, value: number }[]}
  */
@@ -55,7 +56,7 @@ function generateGrades(count) {
     studentId: `student_${i % 10}`,
     teacherId: `teacher_${i % 5}`,
     subject: subjects[i % subjects.length],
-    value: randomGrade()
+    value: gradeFromIndex(i)
   }));
 }
 
@@ -78,6 +79,7 @@ module.exports = {
   generateTeachers,
   generateGrades,
   generateAttendanceRecords,
+  gradeFromIndex,
   subjects,
   groups
 };

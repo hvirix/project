@@ -1,6 +1,7 @@
 module.exports = {
   testEnvironment: 'node',
-  maxWorkers: 2,
+  maxWorkers: 1,
+  coverageProvider: 'v8',
   collectCoverage: true,
   coverageDirectory: 'coverage',
   coverageReporters: ['lcov', 'text', 'html', 'cobertura'],
