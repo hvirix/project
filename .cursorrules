@@ -1,6 +1,6 @@
 # Cursor Global Rules
 
-- You must strictly use TypeScript or JSDoc for types (since this project uses Node.js, we enforce JSDoc types for vanilla JS, or use interfaces if migrating to TS). For this pure Node.js project, use clear class structures.
-- ALWAYS use Test-Driven Development (TDD). Do not generate code without tests. 
-- You MUST NOT use external APIs or databases. Everything must be implemented in-memory.
-- Always use proper interface definitions (or abstract base classes / JSDoc interfaces) before implementing logic.
+- Use JSDoc type annotations consistently for all functions and classes. Do not introduce TypeScript unless the project is migrated to it.
+- Follow Test-Driven Development (TDD). Write tests before or alongside implementation code.
+- Do not use external APIs, databases, or any persistence layer. All data must be stored in-memory using JavaScript collections.
+- All services must depend on abstractions (constructor injection), not on concrete implementations directly.

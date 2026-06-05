@@ -1,10 +1,10 @@
 # 📓 Електронний журнал (Electronic Journal)
 
-[![CI Pipeline](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=electronic-journal-js&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=electronic-journal-js)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=electronic-journal-js&metric=coverage)](https://sonarcloud.io/summary/new_code?id=electronic-journal-js)
-[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=electronic-journal-js&metric=bugs)](https://sonarcloud.io/summary/new_code?id=electronic-journal-js)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=electronic-journal-js&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=electronic-journal-js)
+[![CI Pipeline](https://github.com/hvirix/project/actions/workflows/ci.yml/badge.svg)](https://github.com/hvirix/project/actions/workflows/ci.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=hvirix_project&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=hvirix_project)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=hvirix_project&metric=coverage)](https://sonarcloud.io/summary/new_code?id=hvirix_project)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=hvirix_project&metric=bugs)](https://sonarcloud.io/summary/new_code?id=hvirix_project)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=hvirix_project&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=hvirix_project)
 ![Tests](https://img.shields.io/badge/tests-351-brightgreen)
 ![Node.js](https://img.shields.io/badge/node-v18%2B-blue)
 
@@ -20,7 +20,6 @@
 
 Проєкт розподілено на чіткі шари згідно принципів SOLID:
 
-```
 src/
 ├── models/          # Сутності: Student, Teacher, Grade, Attendance, Homework
 ├── services/        # Бізнес-логіка (GradingService, AttendanceService, HomeworkService)
@@ -28,7 +27,7 @@ src/
 │   └── gradingStrategies.js      # Патерн Strategy
 ├── storage/         # InMemoryRepository (єдиний шар даних)
 └── utils/           # Допоміжні утиліти (generateData.js для тестів)
-```
+
 
 ---
 
@@ -48,55 +47,58 @@ src/
 
 | Метрика       | Значення |
 |---------------|----------|
-| **Тестів**    | ✅ 351    |
+| **Тестів** | ✅ 351    |
 | **Statements**| ✅ 98.37% |
 | **Functions** | ✅ 96.15% |
-| **Lines**     | ✅ 99.05% |
-| **Branches**  | ✅ 93.33% |
+| **Lines** | ✅ 99.05% |
+| **Branches** | ✅ 93.33% |
 
 ### Запуск тестів
 ```bash
 npm install
 npm test
-```
+Звіти генеруються автоматично у папці coverage/:
 
-Звіти генеруються автоматично у папці `coverage/`:
-- `coverage/lcov-report/index.html` — HTML-звіт для розробника (відкрийте у браузері)
-- `coverage/lcov.info` — LCOV звіт для SonarQube
-- `coverage/junit.xml` — JUnit XML звіт про результати тестів
-- `coverage/cobertura-coverage.xml` — XML звіт про покриття
+coverage/lcov-report/index.html — HTML-звіт для розробника (відкрийте у браузері)
 
----
+coverage/lcov.info — LCOV звіт для SonarQube
 
-## 🚀 CI/CD та DevOps
+coverage/junit.xml — JUnit XML звіт про результати тестів
 
-Пайплайн GitHub Actions (`.github/workflows/ci.yml`) при кожному коміті:
-1. ✅ Встановлює залежності
-2. ✅ Запускає **351 тест** та генерує coverage звіти
-3. ✅ Зберігає **HTML-звіт** як CI Artifact (завантаження через GitHub Actions UI)
-4. ✅ Зберігає **XML звіти** (lcov.info, junit.xml, cobertura) як CI Artifact
-5. ✅ Відправляє результати в **SonarCloud** для перевірки Quality Gate
+coverage/cobertura-coverage.xml — XML звіт про покриття
 
-### SonarQube Quality Gate
-- Coverage: >70% (фактично >93%)
-- Bugs: 0
-- Vulnerabilities: 0
-- Code Smells: рівень A
+🚀 CI/CD та DevOps
+Пайплайн GitHub Actions (.github/workflows/ci.yml) при кожному коміті:
 
----
+✅ Встановлює залежності
 
-## 🤖 AI-Driven Setup
+✅ Запускає 351 тест та генерує coverage звіти
 
+✅ Зберігає HTML-звіт як CI Artifact (завантаження через GitHub Actions UI)
+
+✅ Зберігає XML звіти (lcov.info, junit.xml, cobertura) як CI Artifact
+
+✅ Відправляє результати в SonarCloud для перевірки Quality Gate
+
+SonarQube Quality Gate
+Coverage: >70% (фактично >93%)
+
+Bugs: 0
+
+Vulnerabilities: 0
+
+Code Smells: рівень A
+
+🤖 AI-Driven Setup
 Репозиторій налаштовано для роботи з ШІ-агентами (Cursor, Copilot, Claude):
-- `.cursorrules` — Глобальні правила: заборона БД, обов'язковий TDD, In-Memory only
-- `.cursor/rules/architecture.md` — Правила архітектури та SOLID
-- `.cursor/rules/testing_strategy.md` — Правила генерації тестів (Jest, >70% coverage)
 
----
+.cursorrules — Глобальні правила: заборона БД, обов'язковий TDD, In-Memory only
 
-## 📁 Структура репозиторію
+.cursor/rules/architecture.md — Правила архітектури та SOLID
 
-```
+.cursor/rules/testing_strategy.md — Правила генерації тестів (Jest, >70% coverage)
+
+📁 Структура репозиторію
 |-- src/
 |   |-- models/           # Student, Teacher, Grade, Attendance, Homework
 |   |-- services/         # GradingService, AttendanceService, HomeworkService
@@ -118,29 +120,14 @@ npm test
 |-- jest.config.js        # Jest + Coverage + JUnit reporter
 |-- sonar-project.properties # SonarCloud конфігурація
 |-- README.md
-```
-
----
-
-## 🐳 Docker (ізольований запуск)
-
-```bash
+🐳 Docker (ізольований запуск)
+Bash
 docker build -t electronic-journal .
 docker run --rm electronic-journal
-```
-
----
-
-## ⚙️ Швидкий старт
-
-```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
+⚙️ Швидкий старт
+Bash
+git clone [https://github.com/hvirix/project.git](https://github.com/hvirix/project.git)
 cd electronic-journal
 npm install
 npm test
 # Відкрийте coverage/lcov-report/index.html у браузері для перегляду покриття
-```
-
----
-
-*Розроблено в рамках курсу "Якість та тестування ПЗ"*
