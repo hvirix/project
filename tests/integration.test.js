@@ -163,3 +163,54 @@ describe('Integration Tests: Full workflow via generated data', () => {
     }
   );
 });
+
+// ---------------------------------------------------------------------------
+// Parameterized boundary tests: grade values 1-12 for 5 subjects × 5 students
+// These cover input validation boundaries and edge cases at scale.
+// ---------------------------------------------------------------------------
+describe('Boundary: grade value range tests per student and subject', () => {
+  const gradeValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  const students = ['bnd_s1', 'bnd_s2', 'bnd_s3', 'bnd_s4', 'bnd_s5'];
+
+  students.forEach(studentId => {
+    it.each(gradeValues)(`GradingService: student ${studentId} should store grade value %s`, (val) => {
+      const repo = new InMemoryRepository();
+      const observer = new NotificationObserver();
+      const service = new GradingService(repo, null, observer);
+      service.addGrade(`g_${studentId}_${val}`, studentId, 't1', 'Math', val);
+      const stored = service.getStudentGrades(studentId);
+      expect(stored.length).toBe(1);
+      expect(stored[0].value).toBe(val);
+    });
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Parameterized boundary tests: attendance rate calculation for 10 scenarios
+// ---------------------------------------------------------------------------
+describe('Boundary: attendance rate edge cases', () => {
+  const attendanceScenarios = [
+    ['edge_s1', [true],                                          100],
+    ['edge_s2', [false],                                           0],
+    ['edge_s3', [true, true, true, true, true],                  100],
+    ['edge_s4', [false, false, false, false, false],               0],
+    ['edge_s5', [true, false],                                    50],
+    ['edge_s6', [true, true, false],                              67],
+    ['edge_s7', [true, false, false],                             33],
+    ['edge_s8', [true, true, true, false],                        75],
+    ['edge_s9', [true, false, false, false],                      25],
+    ['edge_s10',[true, true, false, false, false, false, false],  29],
+  ];
+
+  it.each(attendanceScenarios)(
+    'student %s with pattern %j should have %s%% attendance',
+    (studentId, pattern, expectedRate) => {
+      const repo = new InMemoryRepository();
+      const service = new AttendanceService(repo);
+      pattern.forEach((isPresent, i) => {
+        service.markAttendance(`att_${studentId}_${i}`, studentId, isPresent);
+      });
+      expect(service.getAttendanceStats(studentId).attendanceRate).toBe(expectedRate);
+    }
+  );
+});

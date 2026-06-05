@@ -1,5 +1,6 @@
 module.exports = {
   testEnvironment: 'node',
+  maxWorkers: 2,
   collectCoverage: true,
   coverageDirectory: 'coverage',
   coverageReporters: ['lcov', 'text', 'html', 'cobertura'],
